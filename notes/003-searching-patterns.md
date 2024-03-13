@@ -502,3 +502,102 @@ public class Solution {
 
 Time Complexity : O(log(n)) <br/>
 Space Complexity : O(1) - No extra space is being used.
+
+### Problem 9 - [Find position of an element in a sorted array of infinite numbers](https://www.geeksforgeeks.org/find-position-element-sorted-array-infinite-numbers/)
+Suppose you have a sorted array of infinite numbers, how would you search an element in the array?
+
+**Sample Input:**
+```
+arr[] = {1, 2, 3, 4, 5, ..., infinite}, x = 5
+```
+
+**Sample Output:**
+```
+4
+```
+
+**Solution :**
+```java
+public class Solution {
+
+    public static int search(int [] arr, int target) {
+        // consider start as 0, end as 1 and move the end by multiplying it by 2 until target in within limits.
+        int start = 0, end = 1;
+        while(target > arr[end]) {
+          start = end;
+          end = end*2;
+        }
+        // apply binary search once we know the start and end.
+        return binarySearch(arr, start, end, target);
+    }
+
+    public static int binarySearch(int [] arr, int start, int end, int target) {
+        while (start <= end){
+            int mid = start + (end-start)/2;
+            if (arr[mid] == target) {
+                return mid;
+            } else if(arr[mid] < target) {
+                start = mid+1;
+            } else {
+                end = mid-1;
+            }
+        }
+        return res;
+    }
+}
+```
+
+Time Complexity : O(log(n)) <br/>
+Space Complexity : O(1) - No extra space is being used.
+
+### Problem 10 - [Find the index of first 1 in an infinite sorted array of 0s and 1s](https://www.geeksforgeeks.org/find-index-first-1-infinite-sorted-array-0s-1s/)
+Given an infinite sorted array consisting 0s and 1s. The problem is to find the index of first ‘1’ in that array. As the array is infinite, therefore it is guaranteed that number ‘1’ will be present in the array.
+
+**Sample Input:**
+```
+arr[] = {0, 0, 1, 1, 1, 1, ..., infinite}
+arr[] = {1, 1, 1, 1,, 1, 1, ...., infinite}
+```
+
+**Sample Output:**
+```
+2
+0
+```
+
+**Solution :**
+```java
+public class Solution {
+
+    public static int search(int[] arr) {
+        // consider start as 0, end as 1 and move the end by multiplying it by 2 until target in within limits.
+        int start = 0, end = 1, target = 1;
+        while (target > arr[end]) {
+            start = end;
+            end = end*2;
+        }
+        // apply binary search once we know the start and end.
+        return binarySearch(arr, start, end, target);
+    }
+
+    // Get First index of element using binarySearch
+    public static int binarySearch(int[] arr, int start, int end, int target) {
+        int res = -1;
+        while(start <= end){
+            int mid = start + (end-start)/2;
+            if(arr[mid] == target) {
+                res = mid;
+                end = mid-1;
+            } else if(arr[mid] < target) {
+                start = mid+1;
+            } else {
+                end = mid-1;
+            }
+        }
+        return res;
+    }
+}
+```
+
+Time Complexity : O(log(n)) <br/>
+Space Complexity : O(1) - No extra space is being used.
