@@ -601,3 +601,87 @@ public class Solution {
 
 Time Complexity : O(log(n)) <br/>
 Space Complexity : O(1) - No extra space is being used.
+
+### Problem 11 - [Absolute minimum difference in a Sorted Array from target](https://www.youtube.com/watch?v=3RhGdmoF_ac&list=PL_z_8CaSLPWeYfhtuKHj-9MpYb6XQJ_f2&index=15)
+Given an infinite sorted array. You need to find the element with minimum difference from the target.
+
+**Sample Input:**
+```
+arr[] = {1, 3, 8, 10, 15} , target = 12
+```
+
+**Sample Output:**
+```
+2
+```
+
+**Solution :**
+```java
+public class Solution {
+
+    public static int binarySearch(int[] arr, int start, int end, int target) {
+        int mid = 0;
+        while(start <= end){
+            mid = start + (end-start)/2;
+            if(arr[mid] == target) {
+                // If element found - means difference is zero.
+                return mid;
+            } else if(arr[mid] < target) {
+                start = mid+1;
+            } else {
+                end = mid-1;
+            }
+        }
+        // Once we reach to the state where element is not present in array means either minimum diff is with start or end.
+        return Math.min(Math.abs(arr[start]-target), Math.abs(arr[end]-target));
+    }
+}
+```
+
+Time Complexity : O(log(n)) <br/>
+Space Complexity : O(1) - No extra space is being used.
+
+### Problem 12 - [Peak Element](https://leetcode.com/problems/find-peak-element/description/)
+A peak element is an element that is strictly greater than its neighbors.
+
+Given a 0-indexed integer array nums, find a peak element, and return its index. If the array contains multiple peaks, return the index to any of the peaks.
+
+You may imagine that nums[-1] = nums[n] = -∞. In other words, an element is always considered to be strictly greater than a neighbor that is outside the array.
+
+You must write an algorithm that runs in O(log n) time.
+
+**Sample Input:**
+```
+arr[] = {1, 3, 8, 10, 15} , target = 12
+```
+
+**Sample Output:**
+```
+2
+```
+
+**Solution :**
+```java
+public class Solution {
+
+    public static int binarySearch(int[] arr, int start, int end, int target) {
+        int mid = 0;
+        while(start <= end){
+            mid = start + (end-start)/2;
+            if(arr[mid] == target) {
+                // If element found - means difference is zero.
+                return mid;
+            } else if(arr[mid] < target) {
+                start = mid+1;
+            } else {
+                end = mid-1;
+            }
+        }
+        // Once we reach to the state where element is not present in array means either minimum diff is with start or end.
+        return Math.min(Math.abs(arr[start]-target), Math.abs(arr[end]-target));
+    }
+}
+```
+
+Time Complexity : O(log(n)) <br/>
+Space Complexity : O(1) - No extra space is being used.
