@@ -13,3 +13,5 @@ Project will provide good documentation to learn DSA basics and practice problem
 
 ### Modules 
 - [Time & Space Complexity](notes/001-space-and-time-complexity.md)
+- [Star Patterns](notes/002-star-patterns.md)
+- [Searching Patterns](notes/003-searching-patterns.md)
