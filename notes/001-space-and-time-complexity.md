@@ -60,6 +60,11 @@ It is defined as Θ (g(n)) = {f(n): there exist positive constants c1, c2 and n0
 
 ### How to Analyse Complexity for Algorithms
 
+- Commonly used rate of growth
+  ```shell
+  (2^(2^n)) > n! > 4^n > 2^n > n^3> n^2 > n(logn) > log(n!) > n > 2^(logn) > log^2n > sqrt(logn) > log(logn) > 1 
+  ```
+
 #### Constant Time Complexity O(1)
 - The time complexity of a function (or set of statements) is considered as O(1) if it doesn’t contain a loop, recursion, 
 and call to any other non-constant time function.
