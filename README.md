@@ -15,3 +15,4 @@ Project will provide good documentation to learn DSA basics and practice problem
 - [Time & Space Complexity](notes/001-space-and-time-complexity.md)
 - [Star Patterns](notes/002-star-patterns.md)
 - [Searching Patterns - Linear/Binary](notes/003-searching-patterns.md)
+- [Sorting Algorithms](notes/004-sorting-algorithms.md)
