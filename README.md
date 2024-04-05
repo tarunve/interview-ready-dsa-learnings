@@ -16,3 +16,4 @@ Project will provide good documentation to learn DSA basics and practice problem
 - [Star Patterns](notes/002-star-patterns.md)
 - [Searching Patterns - Linear/Binary](notes/003-searching-patterns.md)
 - [Sorting Algorithms](notes/004-sorting-algorithms.md)
+- [Sliding Window Patterns](notes/005-sliding-window-patterns.md)
