@@ -620,9 +620,8 @@ arr[] = {1, 3, 8, 10, 15} , target = 12
 public class Solution {
 
     public static int binarySearch(int[] arr, int start, int end, int target) {
-        int mid = 0;
         while(start <= end){
-            mid = start + (end-start)/2;
+            int mid = start + (end-start)/2;
             if(arr[mid] == target) {
                 // If element found - means difference is zero.
                 return mid;
@@ -633,7 +632,7 @@ public class Solution {
             }
         }
         // Once we reach to the state where element is not present in array means either minimum diff is with start or end.
-        return Math.min(Math.abs(arr[start]-target), Math.abs(arr[end]-target));
+        return (Math.abs(arr[start]-target) < Math.abs(arr[end]-target)) ? arr[start] : arr[end];
     }
 }
 ```
@@ -663,25 +662,225 @@ arr[] = {1, 3, 8, 10, 15} , target = 12
 **Solution :**
 ```java
 public class Solution {
-
-    public static int binarySearch(int[] arr, int start, int end, int target) {
-        int mid = 0;
-        while(start <= end){
-            mid = start + (end-start)/2;
-            if(arr[mid] == target) {
-                // If element found - means difference is zero.
-                return mid;
-            } else if(arr[mid] < target) {
-                start = mid+1;
-            } else {
-                end = mid-1;
+    
+    public static int binarySearch(int[] arr, int start, int end) {
+        int size = arr.length;
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
+            // Check for middle elements if mid is greater than previous and next.
+            if (mid > 0 && mid < size - 1) {
+                if (arr[mid] > arr[mid - 1] && arr[mid] > arr[mid + 1]) {
+                    return mid;
+                } else if (arr[mid - 1] > arr[mid]) {
+                    end = mid - 1;
+                } else {
+                    start = mid + 1;
+                }
+            } else if (mid == 0) {  // Check for 1st element
+                return (arr[0] > arr[1]) ? 0 : 1;
+            } else if (mid == size - 1) {  // Check for last element
+                return (arr[size - 1] > arr[size - 2]) ? size - 1 : size - 2;
             }
         }
-        // Once we reach to the state where element is not present in array means either minimum diff is with start or end.
-        return Math.min(Math.abs(arr[start]-target), Math.abs(arr[end]-target));
+        return -1;
     }
 }
 ```
 
 Time Complexity : O(log(n)) <br/>
+Space Complexity : O(1) - No extra space is being used.
+
+### Problem 13 - [Find an element in Bitonic array](https://www.geeksforgeeks.org/find-element-bitonic-array/)
+Given a bitonic sequence of n distinct elements, and an integer x, the task is to write a program to find given element x in the bitonic sequence in O(log n) time
+
+**Sample Input:**
+```
+arr[] = {-3, 9, 18, 20, 17, 5, 1}, target = 20
+arr[] = {5, 6, 7, 8, 9, 10, 3, 2, 1}, target = 30
+```
+
+**Sample Output:**
+```
+3
+-1
+```
+
+**Solution :**
+- Maximum element in bitonic array is the same question as Peak Element. Because there will be an element which will be greater than previous and next element. [Maximum value in a bitonic array](https://www.includehelp.com/icp/maximum-value-in-a-bitonic-array.aspx#google_vignette)
+
+```java
+public class Solution {
+
+    public static int search(int[] arr, int start, int end, int target){
+        int peakElement = peakElement(arr, start, end);
+        if(peakElement != -1){
+            int leftSearch = binarySearchSorted(arr, start, peakElement, target);
+            return (leftSearch != -1) ? leftSearch : binarySearchReverseSorted(arr, peakElement, end, target);
+        }
+        return -1;
+    }
+
+    // Binary Search in increasing sorted array.
+    public static int binarySearchSorted(int[] arr, int start, int end, int target){
+        while (start <= end){
+            int mid = start + (end-start)/2;
+            if(arr[mid] == target) {
+                return mid;
+            } else if (arr[mid] < target) {
+                start = mid+1;
+            } else {
+                end = mid-1;
+            }
+        }
+        return -1;
+    }
+
+    // Binary Search in decreasing sorted array.
+    public static int binarySearchReverseSorted(int[] arr, int start, int end, int target){
+        while (start <= end){
+            int mid = start + (end-start)/2;
+            if(arr[mid] == target) {
+                return mid;
+            } else if (arr[mid] < target) {
+                end = mid-1;
+            } else {
+                start = mid+1;
+            }
+        }
+        return -1;
+    }
+
+    // Find peak element in the array which is greater than its previous and next element.
+    public static int peakElement(int[] arr, int start, int end) {
+        int size = arr.length;
+        while(start <= end){
+            int mid = start + (end-start)/2;
+            // Check for middle elements if mid is greater than previous and next.
+            if(mid > 0 && mid < size-1) {
+                if(arr[mid] > arr[mid-1] && arr[mid] > arr[mid+1]) {
+                    return mid;
+                } else if(arr[mid-1] > arr[mid]){
+                    end = mid-1;
+                } else {
+                    start = mid+1;
+                }
+            } else if(mid == 0) {  // Check for 1st element
+                return (arr[0] > arr[1]) ? 0 : 1;
+            } else if(mid == size-1){  // Check for last element
+                return (arr[size-1] > arr[size-2]) ? size-1 : size-2;
+            }
+        }
+        return -1;
+    }
+}
+```
+
+Time Complexity : O(3*log(n)) => O(log(n)) <br/>
+Space Complexity : O(1) - No extra space is being used.
+
+### Problem 14 - [Search in a row wise and column wise sorted matrix](https://www.geeksforgeeks.org/search-in-row-wise-and-column-wise-sorted-matrix/)
+Given an n x m matrix and an integer x, find the position of x in the matrix if it is present. Otherwise, print “Element not found”. Every row and column of the matrix is sorted in increasing order. The designed algorithm should have linear time complexity
+
+**Sample Input:**
+```
+arr[4][4] = { {10, 20, 30, 40},  x = 29
+              {15, 25, 35, 45},
+              {27, 29, 37, 48},
+              {32, 33, 39, 50}}
+arr[4][4] = { {10, 20, 30, 40},   x = 100
+              {15, 25, 35, 45},
+              {27, 29, 37, 48},
+              {32, 33, 39, 50}};
+```
+
+**Sample Output:**
+```
+(2, 1)
+-1
+```
+
+**Solution :**
+- Mid-element in sorted matrix (row wise & column wise) would be the rightmost element in first row.
+
+```java
+public class Solution {
+
+    private static int[] search(int[][] arr, int n, int m, int x) {
+        int i=0, j=m-1;
+        while(i >= 0 && i < n && j >= 0 && j < m) {
+            if(arr[i][j] == x) {
+                return new int[] {i, j};
+            } else if (arr[i][j] > x) {
+                j--;
+            } else if(arr[i][j] < x) {
+                i++;
+            }
+        }
+        return new int[] {-1, -1};
+    }
+}
+```
+
+Time Complexity : O(n+m)     <br/>
+Space Complexity : O(1) - No extra space is being used.
+
+### Problem 15 - [Allocate Minimum Number of Pages from N books to M students](https://www.geeksforgeeks.org/allocate-minimum-number-pages/)
+Given that there are N books and M students. Also given are the number of pages in each book in ascending order. The task is to assign books in such a way that the maximum number of pages assigned to a student is minimum, with the condition that every student is assigned to read some consecutive books. Print that minimum number of pages.
+
+
+
+**Sample Input:**
+```
+N = 4, pages[] = {12, 34, 67, 90}, M = 2
+```
+
+**Sample Output:**
+```
+113
+```
+
+**Solution :**
+- Decide the start/end of the array : start [max element in array], end [sum of all elements in array]
+- Apply binary search and check for each mid element, if it is a valid number on which books can be divided.
+  - If yes - store the result to check if any further minimum result exist or not.
+- To check valid result, increase the student count if sum goes beyond the mid decided.
+
+
+```java
+public class Solution {
+
+    public static int search(int[] pages, int k) {
+        int totalPages = 0, maxNumPagesBook = 0;
+        for (int numPagesCurrBook : pages) {
+            maxNumPagesBook = Math.max(maxNumPagesBook, numPagesCurrBook);
+            totalPages += numPagesCurrBook;
+        }
+        int start = maxNumPagesBook, end = totalPages, result = -1;
+        while(start <= end) {
+            int mid = start + (end-start)/2;
+            if(isValid(pages, mid, k)) {
+                result = mid;
+                end = mid-1;
+            } else {
+                start = mid+1;
+            }
+        }
+        return result;
+    }
+
+    private static boolean isValid(int [] pages, int maxNumPagesAllowed, int maxNumStudentsAllowed) {
+        int noOfStudents = 1, totalPagesTillNow = 0;
+        for (int numPagesCurrBook : pages) {
+            totalPagesTillNow += numPagesCurrBook;
+            if (totalPagesTillNow > maxNumPagesAllowed) {
+                noOfStudents++;
+                totalPagesTillNow = numPagesCurrBook;
+            }
+        }
+        return (noOfStudents <= maxNumStudentsAllowed);
+    }
+}
+```
+
+Time Complexity : O(n*log(n))    <br/>
 Space Complexity : O(1) - No extra space is being used.
